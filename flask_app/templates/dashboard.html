@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="/flask_app/static/css/style.css">
+    <title>Table</title>
+</head>
+<body class="bg-light">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-warning" href="#"><strong>Ohana Rideshare</strong></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active text-light" aria-current="page" href="/logout">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active text-light" aria-current="page" href="/rides/new">Request a Ride</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container d-flex mt-3">
+
+      <!-- Booked Rides -->
+      <div class="container">
+        <h1>Rideshare Requests</h1>
+        <!-- Card -->
+        {% for request in all_requests %}
+        {% if request.user_id != None %}
+        {% if session['user_id'] == request.rider.id %}
+        <form class="container border border-dark p-2  mb-2" action="/ride/delete" method="post">
+          <input type="hidden" name="ride_id" value="{{ request.id }}">
+          <div class="row">
+            <p class="col-6">Rider:</p>
+            <p class="col-6">{{ request.rider.first_name }} {{ request.rider.last_name }}</p>
+          </div>
+          <div class="row">
+            <p class="col-6">Destination:</p>
+            <p class="col-6">{{ request.destination }}</p>
+          </div>
+          <div class="row">
+            <p class="col-6">When needed:</p>
+            <p class="col-6">{{ request.date.strftime('%Y-%m-%d') }}</p>
+          </div>
+          <button type="submit">Delete</button>
+        </form>
+        {% else %}
+        <form class="container border border-dark p-2  mb-2" action="/ride/assign" method="post">
+          <input type="hidden" name="driver_id" value="{{ session['user_id'] }}">
+          <input type="hidden" name="ride_id" value="{{ request.id }}">
+          <div class="row">
+            <p class="col-6">Rider:</p>
+            <p class="col-6">{{ request.rider.first_name }} {{ request.rider.last_name }}</p>
+          </div>
+          <div class="row">
+            <p class="col-6">Destination:</p>
+            <p class="col-6">{{ request.destination }}</p>
+          </div>
+          <div class="row">
+            <p class="col-6">When needed:</p>
+            <p class="col-6">{{ request.date.strftime('%Y-%m-%d') }}</p>
+          </div>
+          <button type="submit">I can drive!</button>
+        </form>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Requested Rides -->
+      <div class="container">
+        <h1>Booked Rideshares</h1>
+        <!-- Card -->
+        {% for ride in all_rides %}
+        <form class="container border border-dark p-2 mb-2" action="/rides/detail/{{ ride.id }}">
+          <p><strong>You</strong> are driving {{ ride.rider.first_name }} to the {{ ride.destination }} on {{ ride.date.strftime('%Y-%m-%d') }}</p>
+          <button type="submit">Details</button>
+        </form>
+        {% endfor %}
+      </div>
+    </div>
+
+   
+</body>
+</html>

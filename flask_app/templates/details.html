@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <title>Details</title>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-warning" href="#"><strong>Ohana Rideshare</strong></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active text-light" aria-current="page" href="/dashboard">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active text-light" aria-current="page" href="/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container col-6 mt-4 p-3">
+
+        <!-- Header -->
+        <h1 class="h1 mb-4 ps-3">User</h1>
+
+        <!-- Card -->
+        <div class="border p-3 border-secondary bg-light">
+          <table class="table mt-4">
+            <tbody>
+                <tr>
+                    <td><strong>Who's driving? </strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                  <td><strong>Who's coming along? </strong></td>
+                  <td>You</td>
+                </tr>
+                <tr>
+                  <td><strong>Date: </strong></td>
+                  <td>{{ ride_object.date }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Details: </strong></td>
+                  <td></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Buttons -->
+        <div class="container d-flex">
+          <form action="/rides/edit/{{ id }}" method="get">
+            <button class="btn btn-primary mt-3" type="submit">Edit</button>
+          </form>
+          <form action="/ride/delete" method="post">
+            <button class="btn btn-primary mt-3 ms-2" type="submit">Delete</button>
+          </form>
+        </div>
+    </div>
+</body>
+</html>
